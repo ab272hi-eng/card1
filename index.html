@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
+  <!-- مكتبة تحويل HTML إلى صورة -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -116,8 +119,10 @@
     }
 
     .preview-area {
-      display: grid;
-      place-items: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
       padding: 14px;
       background: #f5f7fb;
       border-radius: 18px;
@@ -168,6 +173,34 @@
       text-shadow: 0 1px 4px #00192d;
     }
 
+    /* زر التحميل */
+    .download-btn {
+      width: 100%;
+      max-width: 337px;
+      padding: 14px 20px;
+      background: #4778df;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .download-btn:hover {
+      background: #315fc5;
+    }
+
+    .download-btn:active {
+      transform: scale(0.98);
+    }
+
     @media (max-width: 700px) {
       .page {
         padding: 30px 0;
@@ -190,7 +223,7 @@
   <main class="page">
     <header>
       <h1>أنشئ بطاقة عضويتك</h1>
-      <p>اكتب الاسم واختر التصنيف لمعاينة البطاقة.</p>
+      <p>اكتب الاسم واختر التصنيف لمعاينة البطاقة وتحميلها.</p>
     </header>
 
     <section class="app">
@@ -243,10 +276,15 @@
       </div>
 
       <div class="preview-area">
-        <div class="card">
+        <div class="card" id="memberCard">
           <div class="role" id="cardRole">موظف</div>
           <div class="name" id="cardName">اسمك هنا</div>
         </div>
+
+        <!-- زر تحميل الصورة -->
+        <button type="button" class="download-btn" id="downloadBtn">
+          📥 تحميل البطاقة كصورة
+        </button>
       </div>
     </section>
   </main>
@@ -255,6 +293,8 @@
     const nameInput = document.getElementById("personName");
     const cardName = document.getElementById("cardName");
     const cardRole = document.getElementById("cardRole");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const memberCard = document.getElementById("memberCard");
 
     function updateCard() {
       const selectedRole = document.querySelector(
@@ -276,6 +316,31 @@
 
     document.querySelectorAll('input[name="role"]').forEach((input) => {
       input.addEventListener("change", updateCard);
+    });
+
+    // كود تحميل الصورة
+    downloadBtn.addEventListener("click", () => {
+      downloadBtn.innerText = "جاري التحضير...";
+      downloadBtn.disabled = true;
+
+      html2canvas(memberCard, {
+        scale: 3, // جودة عالية للتنزيل
+        useCORS: true, // للسماح بتحميل الخلفية
+        allowTaint: true
+      }).then((canvas) => {
+        const link = document.createElement("a");
+        link.download = `بطاقة-${cardName.textContent}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+
+        downloadBtn.innerText = "📥 تحميل البطاقة كصورة";
+        downloadBtn.disabled = false;
+      }).catch((err) => {
+        console.error("حدث خطأ أثناء تحميل الصورة:", err);
+        alert("تعذر تحميل الصورة، يرجى المحاولة مرة أخرى.");
+        downloadBtn.innerText = "📥 تحميل البطاقة كصورة";
+        downloadBtn.disabled = false;
+      });
     });
   </script>
 </body>
