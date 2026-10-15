@@ -1,282 +1,317 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>بطاقة عضوية</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-
-  <!-- مكتبة تحويل HTML إلى صورة -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Tajawal", sans-serif;
-      color: #182033;
-      background: linear-gradient(145deg, #f2f6ff, #fff 55%, #effaf7);
-    }
-
-    .page {
-      width: min(100% - 32px, 960px);
-      margin: 0 auto;
-      padding: 48px 0;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    header h1 {
-      margin: 0 0 10px;
-      font-size: clamp(28px, 5vw, 42px);
-    }
-
-    header p {
-      margin: 0;
-      color: #68738a;
-      font-size: 17px;
-    }
-
-    .app {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-      align-items: center;
-      background: #fff;
-      border: 1px solid #e8edf5;
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 18px 55px #253b6012;
-    }
-
-    .title {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 14px 15px;
-      border: 1px solid #d9e0eb;
-      border-radius: 12px;
-      font: inherit;
-      font-size: 17px;
-      outline: none;
-    }
-
-    input[type="text"]:focus {
-      border-color: #4778df;
-      box-shadow: 0 0 0 3px #4778df20;
-    }
-
-    .hint {
-      margin: 8px 0 22px;
-      color: #7a8496;
-      font-size: 14px;
-    }
-
-    .choices {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 9px;
-      margin-bottom: 22px;
-    }
-
-    .choice {
-      position: relative;
-    }
-
-    .choice input {
-      position: absolute;
-      opacity: 0;
-    }
-
-    .choice span {
-      display: block;
-      padding: 11px 8px;
-      text-align: center;
-      border: 1px solid #dfe5ee;
-      border-radius: 11px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .choice input:checked + span {
-      color: #315fc5;
-      background: #eef3ff;
-      border-color: #7698e6;
-      font-weight: 700;
-    }
-
-    .preview-area {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      padding: 14px;
-      background: #f5f7fb;
-      border-radius: 18px;
-    }
-
-    .card {
-      width: 100%;
-      max-width: 337px;
-      aspect-ratio: 337 / 509;
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
-      background-image: url("card-template.png");
-      background-position: center;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      box-shadow: 0 15px 30px #1a2b4b30;
-    }
-
-    /* الاسم أصبح في الأعلى */
-    .name {
-      position: absolute;
-      z-index: 1;
-      top: 64%;
-      right: 7%;
-      left: 7%;
-      max-width: 86%;
-      margin: auto;
-      color: #fff;
-      text-align: center;
-      overflow-wrap: anywhere;
-      font-size: clamp(17px, 5vw, 25px);
-      line-height: 1.4;
-      font-weight: 800;
-      text-shadow: 0 1px 4px #00192d;
-    }
-
-    /* المسمى أصبح تحته */
-    .role {
-      position: absolute;
-      z-index: 1;
-      top: 73%;
-      right: 8%;
-      left: 8%;
-      margin: 0;
-      color: #d9b36c;
-      text-align: center;
-      font-size: clamp(14px, 4vw, 19px);
-      font-weight: 700;
-      text-shadow: 0 1px 4px #00192d;
-    }
-
-    /* زر التحميل */
-    .download-btn {
-      width: 100%;
-      max-width: 337px;
-      padding: 14px 20px;
-      background: #4778df;
-      color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      font-family: inherit;
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .download-btn:hover {
-      background: #315fc5;
-    }
-
-    .download-btn:active {
-      transform: scale(0.98);
-    }
-
-    @media (max-width: 700px) {
-      .page {
-        padding: 30px 0;
-      }
-
-      .app {
-        grid-template-columns: 1fr;
-        padding: 18px;
-        gap: 22px;
-      }
-
-      .card {
-        width: min(100%, 337px);
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بطاقة عضوية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .card-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .card-preview {
+            background: linear-gradient(135deg, #003d82 0%, #1a5f9d 100%);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .photo-area {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .photo-area img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .photo-placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            text-align: center;
+        }
+        
+        .name-field {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .job-field {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="text"]:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #003d82;
+            box-shadow: 0 0 0 3px rgba(0, 61, 130, 0.1);
+        }
+        
+        input[type="file"] {
+            padding: 8px;
+            cursor: pointer;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .file-input-label {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: #003d82;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .file-input-label:hover {
+            background: #1a5f9d;
+        }
+        
+        .file-input-wrapper input[type="file"] {
+            display: none;
+        }
+        
+        .file-name {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-save {
+            background: #003d82;
+            color: white;
+        }
+        
+        .btn-save:hover {
+            background: #1a5f9d;
+            box-shadow: 0 5px 15px rgba(0, 61, 130, 0.3);
+        }
+        
+        .btn-reset {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn-reset:hover {
+            background: #d0d0d0;
+        }
+    </style>
 </head>
-
 <body>
-  <main class="page">
-    <header>
-      <h1>أنشئ بطاقة عضويتك</h1>
-      <p>اكتب الاسم واختر التصنيف لمعاينة البطاقة وتحميلها.</p>
-    </header>
-
-    <section class="app">
-      <div class="controls">
-        <label class="title" for="personName">الاسم أو المسمى</label>
-
-        <input
-          id="personName"
-          type="text"
-          maxlength="60"
-          placeholder="مثال: عبدالله بن محمد"
-          autocomplete="name"
-        >
-
-        <p class="hint">تتحدث معاينة البطاقة تلقائياً أثناء الكتابة.</p>
-
-        <div class="title">اختر التصنيف</div>
-
-        <div class="choices">
-          <label class="choice">
-            <input type="radio" name="role" value="موظف" checked>
-            <span>موظف</span>
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="role" value="موظفة">
-            <span>موظفة</span>
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="role" value="معلم">
-            <span>معلم</span>
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="role" value="معلمة">
-            <span>معلمة</span>
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="role" value="طالب">
-            <span>طالب</span>
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="role" value="طالبة">
-            <span>طالبة</span>
-          </label>
+    <div class="card-container">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #003d82;">بطاقة عضوية</h2>
+        
+        <!-- معاينة البطاقة -->
+        <div class="card-preview">
+            <div class="photo-area">
+                <img id="previewImage" style="display: none;" alt="الصورة">
+                <div id="photoPlaceholder" class="photo-placeholder">📷<br>الصورة</div>
+            </div>
+            <div class="name-field" id="previewName">أدخل الاسم</div>
+            <div class="job-field" id="previewJob">أدخل الوظيفة</div>
         </div>
-      </div>
+        
+        <!-- نموذج الإدخال -->
+        <form id="cardForm">
+            <div class="form-group">
+                <label for="nameInput">الاسم *</label>
+                <input 
+                    type="text" 
+                    id="nameInput" 
+                    placeholder="أدخل الاسم الكامل"
+                    required
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="jobInput">الوظيفة *</label>
+                <input 
+                    type="text" 
+                    id="jobInput" 
+                    placeholder="أدخل الوظيفة"
+                    required
+                >
+            </div>
+            
+            <div class="form-group">
+                <label>صورة الملف الشخصي *</label>
+                <div class="file-input-wrapper">
+                    <label for="photoInput" class="file-input-label">
+                        📤 تحميل الصورة من الاستديو
+                    </label>
+                    <input 
+                        type="file" 
+                        id="photoInput" 
+                        accept="image/*"
+                        required
+                    >
+                </div>
+                <div class="file-name" id="fileName"></div>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="btn-save">💾 حفظ البطاقة</button>
+                <button type="reset" class="btn-reset">🔄 إعادة تعيين</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // تحديث اسم الشخص
+        document.getElementById('nameInput').addEventListener('input', function(e) {
+            document.getElementById('previewName').textContent = e.target.value || 'أدخل الاسم';
+        });
+        
+        // تحديث الوظيفة
+        document.getElementById('jobInput').addEventListener('input', function(e) {
+            document.getElementById('previewJob').textContent = e.target.value || 'أدخل الوظيفة';
+        });
+        
+        // تحميل الصورة
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.getElementById('previewImage');
+                    img.src = event.target.result;
+                    img.style.display = 'block';
+                    document.getElementById('photoPlaceholder').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+                
+                // عرض اسم الملف
+                document.getElementById('fileName').textContent = `✓ تم تحميل: ${file.name}`;
+            }
+        });
+        
+        // معالجة إرسال النموذج
+        document.getElementById('cardForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('تم حفظ البطاقة بنجاح! ✓');
+        });
+        
+        // إعادة تعيين النموذج
+        document.getElementById('cardForm').addEventListener('reset', function() {
+            setTimeout(() => {
+                document.getElementById('previewName').textContent = 'أدخل الاسم';
+                document.getElementById('previewJob').textContent = 'أدخل الوظيفة';
+                document.getElementById('previewImage').style.display = 'none';
+                document.getElementById('photoPlaceholder').style.display = 'block';
+                document.getElementById('fileName').textContent = '';
+            }, 0);
+        });
+    </script>
+</body>
+</html>
 
-      <div class="preview-area">
-        <div class="card" id="memberCard">
-          <!-- تم تعديل الترتيب: الاسم أولاً ثم المسمى تحته -->
