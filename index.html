@@ -142,24 +142,11 @@
       box-shadow: 0 15px 30px #1a2b4b30;
     }
 
-    .role {
-      position: absolute;
-      z-index: 1;
-      top: 65%;
-      right: 8%;
-      left: 8%;
-      margin: 0;
-      color: #d9b36c;
-      text-align: center;
-      font-size: clamp(14px, 4vw, 19px);
-      font-weight: 700;
-      text-shadow: 0 1px 4px #00192d;
-    }
-
+    /* الاسم أصبح في الأعلى */
     .name {
       position: absolute;
       z-index: 1;
-      top: 71%;
+      top: 64%;
       right: 7%;
       left: 7%;
       max-width: 86%;
@@ -170,6 +157,21 @@
       font-size: clamp(17px, 5vw, 25px);
       line-height: 1.4;
       font-weight: 800;
+      text-shadow: 0 1px 4px #00192d;
+    }
+
+    /* المسمى أصبح تحته */
+    .role {
+      position: absolute;
+      z-index: 1;
+      top: 73%;
+      right: 8%;
+      left: 8%;
+      margin: 0;
+      color: #d9b36c;
+      text-align: center;
+      font-size: clamp(14px, 4vw, 19px);
+      font-weight: 700;
       text-shadow: 0 1px 4px #00192d;
     }
 
@@ -277,71 +279,4 @@
 
       <div class="preview-area">
         <div class="card" id="memberCard">
-          <div class="role" id="cardRole">موظف</div>
-          <div class="name" id="cardName">اسمك هنا</div>
-        </div>
-
-        <!-- زر تحميل الصورة -->
-        <button type="button" class="download-btn" id="downloadBtn">
-          📥 تحميل البطاقة كصورة
-        </button>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    const nameInput = document.getElementById("personName");
-    const cardName = document.getElementById("cardName");
-    const cardRole = document.getElementById("cardRole");
-    const downloadBtn = document.getElementById("downloadBtn");
-    const memberCard = document.getElementById("memberCard");
-
-    function updateCard() {
-      const selectedRole = document.querySelector(
-        'input[name="role"]:checked'
-      ).value;
-
-      cardName.textContent = nameInput.value.trim() || "اسمك هنا";
-      cardRole.textContent = selectedRole;
-    }
-
-    nameInput.addEventListener("input", updateCard);
-
-    nameInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        updateCard();
-      }
-    });
-
-    document.querySelectorAll('input[name="role"]').forEach((input) => {
-      input.addEventListener("change", updateCard);
-    });
-
-    // كود تحميل الصورة
-    downloadBtn.addEventListener("click", () => {
-      downloadBtn.innerText = "جاري التحضير...";
-      downloadBtn.disabled = true;
-
-      html2canvas(memberCard, {
-        scale: 3, // جودة عالية للتنزيل
-        useCORS: true, // للسماح بتحميل الخلفية
-        allowTaint: true
-      }).then((canvas) => {
-        const link = document.createElement("a");
-        link.download = `بطاقة-${cardName.textContent}.png`;
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-
-        downloadBtn.innerText = "📥 تحميل البطاقة كصورة";
-        downloadBtn.disabled = false;
-      }).catch((err) => {
-        console.error("حدث خطأ أثناء تحميل الصورة:", err);
-        alert("تعذر تحميل الصورة، يرجى المحاولة مرة أخرى.");
-        downloadBtn.innerText = "📥 تحميل البطاقة كصورة";
-        downloadBtn.disabled = false;
-      });
-    });
-  </script>
-</body>
-</html>
+          <!-- تم تعديل الترتيب: الاسم أولاً ثم المسمى تحته -->
